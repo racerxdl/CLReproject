@@ -10,3 +10,11 @@ With OpenCL (running over CUDA on a GTX980m) it took amazingly 139ms (Including 
 That will be part of OpenSatelliteProject soon.
 
 PS: Please be kind, that was my first OpenCL program!
+
+For anyone that doesn't know what I'm talking about, it basically gets a image like this:
+
+![Source Image](images/original.jpg "Source Image")
+
+And makes look like thus
+
+![Output Image](images/output.jpg "Output Image")
