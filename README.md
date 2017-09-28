@@ -15,6 +15,6 @@ For anyone that doesn't know what I'm talking about, it basically gets a image l
 
 ![Source Image](images/original.jpg "Source Image")
 
-And makes look like thus
+And makes look like this
 
 ![Output Image](images/output.jpg "Output Image")
