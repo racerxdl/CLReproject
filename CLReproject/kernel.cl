@@ -88,3 +88,42 @@ __kernel void reproject(__read_only  image2d_t srcImg, __write_only image2d_t ds
   color.w = 255;
   write_imageui(dstImg, coord, color);
 }
+
+// Assume 256x256 LUT
+uchar4 Lut2DVal(global __read_only uchar4 *LUT, uint x, uint y) {
+  return LUT[y * 256 + x];
+}
+
+__kernel void apply2DLUT(__read_only image2d_t i0, __read_only image2d_t i1, __write_only image2d_t output,
+  global __read_only uchar4 *LUT
+  ) {
+
+  const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | // Natural coordinates
+    CLK_ADDRESS_CLAMP_TO_EDGE | //Clamp to zeros
+    CLK_FILTER_LINEAR;
+
+  int2 coord = (int2)(get_global_id(0), get_global_id(1));
+  uint4 c0 = read_imageui(i0, smp, coord);
+  uint4 c1 = read_imageui(i1, smp, coord);
+
+  uchar4 lutColor = Lut2DVal(LUT, c0.x, c1.x);
+  uint4 color = (uint4)(lutColor.z, lutColor.y, lutColor.x, 255);
+
+  write_imageui(output, coord, color);
+}
+
+__kernel void applyCurve(__read_only  image2d_t input, __write_only image2d_t output, global __read_only uchar *curveLUT) {
+  const sampler_t smp = CLK_NORMALIZED_COORDS_FALSE | // Natural coordinates
+    CLK_ADDRESS_CLAMP_TO_EDGE | //Clamp to zeros
+    CLK_FILTER_LINEAR;
+
+  int2 coord = (int2)(get_global_id(0), get_global_id(1));
+  uint4 color = read_imageui(input, smp, coord);
+
+  color.x = curveLUT[color.x];
+  color.y = curveLUT[color.y];
+  color.z = curveLUT[color.z];
+  color.w = curveLUT[color.w];
+
+  write_imageui(output, coord, color);
+}

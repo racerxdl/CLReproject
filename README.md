@@ -11,7 +11,8 @@ That will be part of OpenSatelliteProject soon.
 
 PS: Please be kind, that was my first OpenCL program!
 
-For anyone that doesn't know what I'm talking about, it basically gets a image like this:
+It started as just a Reprojection Tool. Now it does False Color Generation too, and under 500 ms!
+For anyone that doesn't know what I'm talking about, it basically gets a two images like this:
 
 ![Source Image](images/original.jpg "Source Image")
 
